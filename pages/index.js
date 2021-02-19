@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import fs from 'fs'
 import matter from 'gray-matter'
@@ -26,7 +27,7 @@ export default function Home(props) {
             <div className={styles.card} key={product.title}>
               <img src={`/${product.slug}.jpg`} alt={product.title}/>
               <div>
-                <h3>{product.title}</h3>
+                <Link href={`/products/${product.slug}`}><a><h3>{product.title}</h3></a></Link>
                 <p>${product.price}</p>
                 <p>{product.description}</p>
               </div>
@@ -36,7 +37,7 @@ export default function Home(props) {
       </main>
 
       <footer className={styles.footer}>
-        <p>Made with &hearts; by DSPdav</p>
+        <p>Made with &hearts; by <a href="https://github.com/DSPdav/">DSPdav</a></p>
       </footer>
     </div>
   )
