@@ -1,11 +1,17 @@
 import fs from 'fs'
 import matter from 'gray-matter'
 import marked from 'marked'
+import Head from 'next/head'
 
 const Product = ({product: {data, content}}) => {
 
     return (
         <>
+            <Head>
+                <title>{`Next Store App | ${data.title}`}</title>
+            </Head>
+
+            <img src={`/${data.productName}.jpg`} alt={data.title}/>
             <h2>{data.title}</h2>
             <p>${data.price}</p>
 
@@ -37,7 +43,7 @@ export const getStaticProps = async (context) => {
     return {
         props: {
             product: {
-                data,
+                data: {productName, ...data},
                 content
             }
         }
