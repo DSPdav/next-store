@@ -4,18 +4,8 @@ import fs from 'fs'
 import matter from 'gray-matter'
 import styled from 'styled-components'
 
-const Container = styled.div`
-  min-height: 100vh;
-  padding: 0 .5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`
-
 const Main = styled.main`
-  padding: 5rem 0;
-  flex: 1;
+  padding: 3rem 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -46,7 +36,6 @@ const Grid = styled.div`
   justify-content: center;
   flex-wrap: wrap;
   max-width: 1000px;
-  margin-top: 3rem;
 
   @media (max-width: 600px) {
     width: 100%;
@@ -63,11 +52,12 @@ const Card = styled.div`
   text-decoration: none;
   border: 1px solid #dbdbdb;
   border-radius: 10px;
-  transition: color 0.5s ease, border-color 0.25s ease;
+  transition: color 0.5s ease, border-color 0.25s ease, transform 0.75s ease;
 
   &:hover {
     color: #f3c600;
     border-color: #f3c600;
+    transform: scale(1.025);
   }
 
   h3 {
@@ -75,66 +65,48 @@ const Card = styled.div`
     font-size: 1.25rem;
   }
   p {
-    text-align: left;
+    text-align: justify;
     margin: 1rem 0 0;
     font-size: 1rem;
     line-height: 1.5;
   }
   img {
-    height: 250px;
+    height: 20vw;
+    @media (max-width: 600px) {
+      height: 50vw;
+    }
   }
 `
 
-const Footer = styled.footer`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  width: 95%;
-  height: 100px;
-  border-top: 1px solid #eaeaea;
-
-  a:hover, a:focus, a:active {
-    color: #717171;
-  }
-`
+const ProductCard = (product) => (
+  <Card key={product.title}>
+    <img src={`/${product.slug}.jpg`} alt={product.title}/>
+    <div>
+      <Link href={`/products/${product.slug}`}><a><h3>{product.title}</h3></a></Link>
+      <p>${product.price}</p>
+    </div>
+  </Card>
+)
 
 export default function Home(props) {
   const { products } = props
 
   return (
-    <Container>
+    <>
       <Head>
-        <title>Next Store App</title>
+        <title>NexStore</title>
       </Head>
 
       <Main>
-        <h1>
-          Welcome to <a href="#">Next Store App!</a>
-        </h1>
-
-        <p>
-          a Store where everything you need to buy.
-        </p>
-
+        
         <Grid>
-          {products.map(product => (
-            <Card key={product.title}>
-              <img src={`/${product.slug}.jpg`} alt={product.title}/>
-              <div>
-                <Link href={`/products/${product.slug}`}><a><h3>{product.title}</h3></a></Link>
-                <p>${product.price}</p>
-                <p>{product.description}</p>
-              </div>
-            </Card>
-          ))}
+          {products.map(ProductCard)}
         </Grid>
+
       </Main>
 
-      <Footer>
-        <p>Made with &hearts; by <a href="https://github.com/DSPdav/">DSPdav</a></p>
-      </Footer>
-    </Container>
+      
+    </>
   )
 }
 
