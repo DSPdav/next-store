@@ -39,11 +39,12 @@ const Nav = styled.nav`
   a#logo {
     font-size: 1.75rem;
     font-weight: 700;
-    transition: color 0.5s ease;
-    
-    &:hover {
-      color: #717171;
-    }
+  }
+  a {
+    transition: color 0.5s ease;  
+  }
+  a:hover {
+    color: #717171;
   }
 `
 const Footer = styled.footer`

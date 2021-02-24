@@ -3,13 +3,14 @@ import Link from 'next/link'
 import fs from 'fs'
 import matter from 'gray-matter'
 import styled from 'styled-components'
+import useCart from '../hook/useCart'
 
 const Main = styled.main`
-  padding: 3rem 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 3rem 0;
 
   h1 a {
     color: #f3c600;
@@ -44,12 +45,11 @@ const Grid = styled.div`
 `
 
 const Card = styled.div`
+  position: relative;
   flex-basis: 45%;
   margin: 1rem;
   padding: 1.5rem;
   text-align: center;
-  color: inherit;
-  text-decoration: none;
   border: 1px solid #dbdbdb;
   border-radius: 10px;
   transition: color 0.5s ease, border-color 0.25s ease, transform 0.75s ease;
@@ -62,13 +62,17 @@ const Card = styled.div`
 
   h3 {
     text-align: left;
-    font-size: 1.25rem;
+    font-size: 1rem;
   }
   p {
+    display: flex;
     text-align: justify;
     margin: 1rem 0 0;
     font-size: 1rem;
     line-height: 1.5;
+  }
+  span {
+    font-size: 1.5rem;
   }
   img {
     height: 20vw;
@@ -76,20 +80,28 @@ const Card = styled.div`
       height: 50vw;
     }
   }
+  button {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+  }
 `
 
-const ProductCard = (product) => (
+const ProductCard = (product, addToCart) => (
   <Card key={product.title}>
     <img src={`/${product.slug}.jpg`} alt={product.title}/>
     <div>
       <Link href={`/products/${product.slug}`}><a><h3>{product.title}</h3></a></Link>
-      <p>${product.price}</p>
+      <p>$<span>{product.price}</span></p>
+      <button onClick={() => addToCart(product.id)}>Add to cart</button>
     </div>
   </Card>
 )
 
 export default function Home(props) {
   const { products } = props
+  const { cart, addToCart } = useCart()
+
 
   return (
     <>
@@ -100,12 +112,10 @@ export default function Home(props) {
       <Main>
         
         <Grid>
-          {products.map(ProductCard)}
+          {products.map((product) => ProductCard(product, addToCart))}
         </Grid>
 
       </Main>
-
-      
     </>
   )
 }
