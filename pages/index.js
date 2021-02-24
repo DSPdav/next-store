@@ -100,8 +100,7 @@ const ProductCard = (product, addToCart) => (
 
 export default function Home(props) {
   const { products } = props
-  const { cart, addToCart } = useCart()
-
+  const { addToCart } = useCart()
 
   return (
     <>

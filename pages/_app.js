@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import styled, { createGlobalStyle } from 'styled-components'
+import CartProvider from '../context/Cart'
 
 const GlobalStyle = createGlobalStyle`
   html,
@@ -65,18 +66,20 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <GlobalStyle/>
-      <Nav>
-        <div id="wrapper">
-          <Link href="/"><a id="logo">NexStore</a></Link>
-          <div>
-            <Link href="/about"><a>About</a></Link>
+      <CartProvider>
+        <Nav>
+          <div id="wrapper">
+            <Link href="/"><a id="logo">NexStore</a></Link>
+            <div>
+              <Link href="/about"><a>About</a></Link>
+            </div>
           </div>
-        </div>
-      </Nav>
-      <Component {...pageProps} />
-      <Footer>
-        <p>Made with &hearts; by <a href="https://github.com/DSPdav/">DSPdav</a></p>
-      </Footer>
+        </Nav>
+        <Component {...pageProps} />
+        <Footer>
+          <p>Made with &hearts; by <a href="https://github.com/DSPdav/">DSPdav</a></p>
+        </Footer>
+      </CartProvider>
     </>
   )
 }
