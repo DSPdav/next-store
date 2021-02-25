@@ -84,6 +84,16 @@ const Card = styled.div`
     position: absolute;
     bottom: 1rem;
     right: 1rem;
+    padding: .5rem .45rem;
+    outline: none;
+    border-radius: .25rem;
+    border: 1px solid #717171;
+    color: #717171;
+    background: transparent;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 `
 
@@ -93,7 +103,7 @@ const ProductCard = (product, addToCart) => (
     <div>
       <Link href={`/products/${product.slug}`}><a><h3>{product.title}</h3></a></Link>
       <p>$<span>{product.price}</span></p>
-      <button onClick={() => addToCart(product.id)}>Add to cart</button>
+      <button onClick={() => addToCart(product)}>Add to Cart</button>
     </div>
   </Card>
 )

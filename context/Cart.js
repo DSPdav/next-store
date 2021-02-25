@@ -7,21 +7,27 @@ const Cart = ({children}) => {
         return JSON.parse(window.localStorage.getItem('cart'))
     }
     const [cart, setCart] = useState([])
-    
+    const [isOpen, setIsOpen] = useState(false)
+    function openSideCart() {
+        setIsOpen(true)
+    }
+    function closeSideCart() {
+        setIsOpen(false)
+    }
 
-    function addToCart(id, qty = 1) {
-        const item = cart.find(product => product.id == id)
+    function addToCart(product, qty = 1) {
+        const selectedProduct = cart.find(item => item.id === product.id)
 
-        if (item) {
-            const prevCart = cart.filter(product => product.id !== item.id)
-            item.qty += qty
-            setCart([...prevCart, {id: item.id, qty: item.qty}])            
+        if (selectedProduct) {
+            const prevProducts = cart.filter(item => item.id !== selectedProduct.id)
+            selectedProduct.qty += qty
+            setCart([{...selectedProduct}, ...prevProducts])
         } else {
-            setCart([...cart, {id, qty}])
+            setCart([...cart, {...product, qty}])
         }
     }
-    function removeFromCart(id) {
-        const newCart = cart.filter(item => item.id !== id)
+    function removeFromCart(product) {
+        const newCart = cart.filter(item => item.id !== product.id)
         setCart(newCart)
     }
 
@@ -36,10 +42,17 @@ const Cart = ({children}) => {
         window.localStorage.setItem('cart', JSON.stringify(cart))
     }, [cart])
 
-
+    const exposeValues = {
+        cart, 
+        addToCart, 
+        removeFromCart,
+        isOpen,
+        openSideCart,
+        closeSideCart
+    }
 
     return (
-        <CartContext.Provider value={{cart, addToCart, removeFromCart}}>
+        <CartContext.Provider value={exposeValues}>
             {children}
         </CartContext.Provider>
     )
