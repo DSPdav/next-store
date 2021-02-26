@@ -11,26 +11,6 @@ const Main = styled.main`
   justify-content: center;
   align-items: center;
   padding: 3rem 0;
-
-  h1 a {
-    color: #f3c600;
-    text-decoration: none;
-  }
-  h1 a:hover, h1 a:focus, h1 a:active {
-    text-decoration: underline;
-  }
-  h1 {
-    padding: 0 1rem;
-    line-height: 1.15;
-    font-size: 10vw;
-  }
-  h1, p {
-    text-align: center;
-  }
-  p {
-    line-height: 1.5;
-    font-size: 5vw;
-  }
 `
 const Grid = styled.div`
   display: flex;
@@ -97,20 +77,27 @@ const Card = styled.div`
   }
 `
 
-const ProductCard = (product, addToCart) => (
-  <Card key={product.title}>
-    <img src={`/${product.slug}.jpg`} alt={product.title}/>
-    <div>
-      <Link href={`/products/${product.slug}`}><a><h3>{product.title}</h3></a></Link>
-      <p>$<span>{product.price}</span></p>
-      <button onClick={() => addToCart(product)}>Add to Cart</button>
-    </div>
-  </Card>
-)
+const ProductCard = (product, addToCart, openSideCart) => {
+  function handleAddToCart(product) {
+    openSideCart()
+    addToCart(product)
+  }
+
+  return (
+    <Card key={product.title}>
+      <img src={`/${product.slug}.jpg`} alt={product.title}/>
+      <div>
+        <Link href={`/products/${product.slug}`}><a><h3>{product.title}</h3></a></Link>
+        <p>$<span>{product.price}</span></p>
+        <button onClick={() => handleAddToCart(product)}>Add to Cart</button>
+      </div>
+    </Card>
+  )
+}
 
 export default function Home(props) {
   const { products } = props
-  const { addToCart } = useCart()
+  const { addToCart, openSideCart } = useCart()
 
   return (
     <>
@@ -121,7 +108,7 @@ export default function Home(props) {
       <Main>
         
         <Grid>
-          {products.map((product) => ProductCard(product, addToCart))}
+          {products.map((product) => ProductCard(product, addToCart, openSideCart))}
         </Grid>
 
       </Main>

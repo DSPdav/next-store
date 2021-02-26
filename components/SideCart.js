@@ -1,14 +1,14 @@
+import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { IoClose } from 'react-icons/io5'
 import useCart from '../hook/useCart'
 
 const Container = styled.div`
-    overflow-y: scroll;
+    overflow-y: auto;
     position: fixed;
     top: 0;
     bottom: 0;
     right: 0;
-    padding-bottom: 2rem;
     display: flex;
     flex-direction: column;
     background: white;
@@ -73,8 +73,14 @@ const ProductCard = styled.div`
             button {
                 padding: .15rem .35rem;
                 border-radius: .15rem;
-                border: none;
+                border: 1px solid white;
                 outline: none;
+                &:active {
+                    border: 1px solid black;
+                }
+                &:hover {
+                    cursor: pointer;
+                }
             }
             button:first-child {
                 margin-bottom: .25rem;
@@ -94,7 +100,7 @@ const ProductCard = styled.div`
     }
 `
 const Button = styled.button`
-    margin: 0 1rem;
+    margin: 0 1rem 1rem;
     padding: .5rem 0;
     background: transparent;
     border: 1px solid #717171;
@@ -103,13 +109,15 @@ const Button = styled.button`
     transition: color .5s ease, border .3s ease;
 
     &:hover {
+        cursor: pointer;
         color: #f3c600;
         border-color: #f3c600;
     }
 `
 
 const SideCart = () => {
-    const { cart, addToCart, removeFromCart, isOpen, closeSideCart } = useCart()
+    const router = useRouter()
+    const { cart, addToCart, removeFromCart, isOpen, closeSideCart, total } = useCart()
 
     function substractProduct(item) {
         if (item.qty > 1) {
@@ -118,9 +126,10 @@ const SideCart = () => {
             removeFromCart(item)
         }
     }
-
-    function totalPrice(products) {
-        return products.reduce((acc, cur) => acc + (cur.qty * cur.price), 0)
+    
+    function handleCheckout() {
+        closeSideCart()
+        router.push('/checkout')
     }
 
     return (
@@ -144,9 +153,15 @@ const SideCart = () => {
                     </div>
                 </ProductCard>
             ))}
-            {Boolean(totalPrice(cart)) && <div id="total-price">TOTAL <span> ${totalPrice(cart)}</span></div>}
-            {Boolean(totalPrice(cart)) && <Button>CHECKOUT</Button>}
-            {!Boolean(totalPrice(cart)) && <p>Let's check our products and add to this cart...<br/><br/>Happy shopping!</p>}
+            {Boolean(cart.length !== 0) ? (
+                <>
+                    <div id="total-price">TOTAL <span> ${total}</span></div>
+                    <Button onClick={handleCheckout}>CHECKOUT</Button>
+                </>
+                ) : (
+                    <p>Let's check our products and add to this cart...<br/><br/>Happy shopping!</p>
+                )
+            }
         </Container>
     )
 }
