@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import useCart from '../hook/useCart'
 
 const Main = styled.main`
+  flex: 1 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;

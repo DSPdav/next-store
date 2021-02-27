@@ -6,12 +6,18 @@ import Footer from '../components/Footer'
 
 const GlobalStyle = createGlobalStyle`
   html,
-  body {
+  body, div#__next {
+    height: 100%;
     padding: 0;
     margin: 0;
     font-family: sans-serif;
     color: #414141;
     user-select: none;
+  }
+
+  div#__next {
+    display: flex;
+    flex-direction: column;
   }
   
   a {

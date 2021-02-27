@@ -2,20 +2,24 @@ import useCart from '../hook/useCart'
 import styled from 'styled-components'
 
 const Main = styled.main`
-    min-height: 75vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    max-width: 1000px;
+    flex: 1 0 auto;
+    width: 1000px;
     margin: 0 auto;
     padding: 2rem 1rem;
-    
+
+    @media screen and (max-width: 1000px) {
+        width: 100%;        
+    }
+    h1 {
+        font-size: 1.75rem;
+        margin: 0 0 1rem;
+    }
     div#display-products {
-        max-width: 800px;
+        max-width: 80%;
         margin: 0 auto;
     }
     div#total-price {
-        margin: 1rem 0;
+        margin: 1.5rem 0 0;
 
         span {
             font-weight: 700;
@@ -40,7 +44,7 @@ const Checkout = () => {
 
     return (
         <Main>
-            <h1>Checkout Page</h1>
+            <h1>Checkout</h1>
             <div id="display-products">
                 {cart.map(item => (
                     <ProductCard key={item.id}>

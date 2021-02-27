@@ -4,6 +4,7 @@ import { GrCart } from 'react-icons/gr'
 import useCart from '../hook/useCart'
 
 const Nav = styled.nav`
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   width: 100%;
